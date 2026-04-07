@@ -39,3 +39,15 @@ void mul_mat4_vec4(struct mat4 *mat, struct vec4 *vec, struct vec4 *result) {
 
   *result = temp;
 }
+
+void transpose(struct mat4 *mat, struct mat4 *result) {
+  struct mat4 temp;
+
+  for (int i = 0; i < 4; i++) {
+    for (int j = 0; j < 4; j++) {
+      temp.matrix[i + j * 4] = mat->matrix[i * 4 + j];
+    }
+  }
+
+  *result = temp;
+}
