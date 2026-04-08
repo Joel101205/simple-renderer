@@ -2,8 +2,8 @@
 #include "matrix.h"
 
 
-struct mat4 get_mat4_identiy() {
-  return (struct mat4){
+mat4 get_mat4_identiy() {
+  return (mat4){
     .matrix = {
       1, 0, 0, 0,
       0, 1, 0, 0,
@@ -13,8 +13,8 @@ struct mat4 get_mat4_identiy() {
   };
 }
 
-void mul_mat4(struct mat4 *a, struct mat4 *b, struct mat4 *result){
-  struct mat4 temp;
+void mul_mat4(mat4 *a, mat4 *b, mat4 *result){
+  mat4 temp;
 
   for (int i = 0; i < 4; i++){
     for(int j = 0; j < 4; j++) {
@@ -29,8 +29,8 @@ void mul_mat4(struct mat4 *a, struct mat4 *b, struct mat4 *result){
   *result = temp;
 }
 
-void mul_mat4_vec4(struct mat4 *mat, struct vec4 *vec, struct vec4 *result) {
-  struct vec4 temp;
+void mul_mat4_vec4(mat4 *mat, vec4 *vec, vec4 *result) {
+  vec4 temp;
 
   temp.x = mat->matrix[0] * vec->x + mat->matrix[1] * vec->y + mat->matrix[2] * vec->z + mat->matrix[3] * vec->w;
   temp.y = mat->matrix[4] * vec->x + mat->matrix[5] * vec->y + mat->matrix[6] * vec->z + mat->matrix[7] * vec->w;
@@ -40,8 +40,8 @@ void mul_mat4_vec4(struct mat4 *mat, struct vec4 *vec, struct vec4 *result) {
   *result = temp;
 }
 
-void transpose(struct mat4 *mat, struct mat4 *result) {
-  struct mat4 temp;
+void transpose(mat4 *mat, mat4 *result) {
+  mat4 temp;
 
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < 4; j++) {
