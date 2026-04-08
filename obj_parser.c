@@ -1,10 +1,12 @@
+#include "obj_parser.h"
 #include "vector.h"
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-vec4 *read_obj_file(const char* path) {
+Model *read_obj_file(const char* path) {
+  Model *model = malloc(sizeof(Model));
   vec4 *vertices = NULL;
   size_t vertex_count = 0;
 
@@ -27,5 +29,8 @@ vec4 *read_obj_file(const char* path) {
     }
   }
 
-  return vertices;
+  model->vertices = vertices;
+  model->count = vertex_count;
+
+  return model;
 }
