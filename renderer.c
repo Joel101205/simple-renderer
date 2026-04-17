@@ -44,7 +44,7 @@ mat4 *get_model_matrix(vec3 translation, vec3 scale, vec3 rotation) {
   return model_matrix;  // return pointer to model matrix
 }
 
-mat4 *get_view_transformation(vec4 camera_pos, vec4 viewing_direction, vec4 up_vector) {
+mat4 *get_view_matrix(vec4 camera_pos, vec4 viewing_direction, vec4 up_vector) {
   mat4 translation = get_mat4_identiy();
   translation.matrix[3] = - camera_pos.x;
   translation.matrix[7] = - camera_pos.y;
@@ -56,7 +56,7 @@ mat4 *get_view_transformation(vec4 camera_pos, vec4 viewing_direction, vec4 up_v
                           right_vec.z, up_vector.z, viewing_direction.z, 0,
                           0          , 0          , 0                  , 1}};
 
-  mat4 *view_matrix = malloc(sizeof(vec4));
+  mat4 *view_matrix = malloc(sizeof(mat4));
   transpose(&temp, view_matrix);
   mul_mat4(view_matrix, &translation, view_matrix);
   
@@ -102,3 +102,18 @@ void vertex_shader(vec4 *vertices, size_t n, mat4 *m_matrix, mat4 *v_matrix, mat
     *(vertices + i) = temp;
   }
 }
+
+void viewport_transformation(vec4 *vertices, size_t n, float screen_x, float screen_y) {
+  mat4 viewport_matrx = {.matrix = {0.5 * screen_x, 0,              0,   0.5 * screen_x,
+                         0,              0.5 * screen_y, 0,   0.5 * screen_y,
+                         0,              0,              0.5, 0.5,
+                         0,              0,              0,   1}};
+
+  for(int i = 0; i < n; i++) {
+    vec4 temp;
+    mul_mat4_vec4(&viewport_matrx ,(vertices + i), &temp);
+    vertices[i] = temp;
+  } 
+}
+
+
